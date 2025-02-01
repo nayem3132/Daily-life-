@@ -1,0 +1,182 @@
+<meta name='viewport' content='width=device-width, initial-scale=1'/><!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nayem's Daily Activity Tracker</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>📌 Daily Activity Tracker</h1>
+        <h3>✨ By <span class="highlight">Nayem Islam</span> ✨</h3>
+        
+        <div id="currentDateTime" class="datetime"></div> <!-- Live Date & Time -->
+
+        <input type="text" id="activityInput" placeholder="Enter your activity...">
+        <button onclick="addActivity()">➕ Add Activity</button>
+
+        <ul id="activityList"></ul>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html><style>body {
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(to right, #ff9966, #ff5e62);
+    text-align: center;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    width: 50%;
+    margin: 50px auto;
+    background: white;
+    padding: 20px;
+    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+}
+
+h1 {
+    color: #333;
+    font-size: 28px;
+}
+
+h3 {
+    color: #ff5e62;
+    font-size: 18px;
+}
+
+.highlight {
+    color: #ff3d50;
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.datetime {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 15px;
+}
+
+input {
+    width: 70%;
+    padding: 12px;
+    margin: 10px 0;
+    border: 2px solid #ff5e62;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+button {
+    padding: 12px 20px;
+    background: #ff5e62;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 5px;
+    transition: 0.3s;
+}
+
+button:hover {
+    background: #ff3d50;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+}
+
+li {
+    background: #ffe0e6;
+    margin: 5px;
+    padding: 12px;
+    border-radius: 5px;
+    font-size: 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.date-time {
+    font-size: 12px;
+    color: gray;
+}
+
+.action-buttons button {
+    background: #28a745;
+    border: none;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-left: 5px;
+}
+
+.action-buttons button:hover {
+    background: #218838;
+}
+
+.delete-btn {
+    background: red;
+}
+
+.delete-btn:hover {
+    background: darkred;
+}</style><script>// Function to update the live date & time on the home screen
+function updateDateTime() {
+    let now = new Date();
+    let dateTimeString = now.toLocaleString();
+    document.getElementById("currentDateTime").textContent = "📅 " + dateTimeString;
+}
+
+// Update time every second
+setInterval(updateDateTime, 1000);
+updateDateTime(); // Call immediately on load
+
+// Function to add a new activity with date & time
+function addActivity() {
+    let input = document.getElementById("activityInput");
+    let activity = input.value.trim();
+    
+    if (activity !== "") {
+        let list = document.getElementById("activityList");
+        let listItem = document.createElement("li");
+
+        let now = new Date();
+        let dateTime = now.toLocaleString(); // Get current date & time
+
+        listItem.innerHTML = `
+            <span class="activity-text">${activity}</span>
+            <div class="date-time">🕒 ${dateTime}</div>
+            <div class="action-buttons">
+                <button onclick="editActivity(this)">✏️ Edit</button>
+                <button class="delete-btn" onclick="removeActivity(this)">❌ Delete</button>
+            </div>
+        `;
+
+        list.appendChild(listItem);
+        input.value = "";
+    }
+}
+
+// Function to remove an activity
+function removeActivity(button) {
+    let listItem = button.closest("li");
+    listItem.remove();
+}
+
+// Function to edit an activity
+function editActivity(button) {
+    let listItem = button.closest("li");
+    let textElement = listItem.querySelector(".activity-text");
+
+    let newText = prompt("Edit your activity:", textElement.textContent);
+    if (newText !== null && newText.trim() !== "") {
+        textElement.textContent = newText;
+    }
+}</script>
